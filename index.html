@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國泰人壽月月滿溢變額年金保險 - 試算工具</title>
+    <style>
+        :root {
+            --primary-color: #00a650; /* 國泰綠 */
+            --primary-hover: #00853e;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary-color), #00703c);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1.2fr 2fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .card h2 {
+            font-size: 19px;
+            margin-bottom: 18px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* 基礎換算數據 - 完美對齊表格設計 */
+        .basic-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: #f9fbf9;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .basic-info-table td {
+            padding: 12px 14px;
+            border-bottom: 1px dashed #e8eee8;
+            font-size: 14.5px;
+        }
+
+        .basic-info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .label-cell {
+            text-align: left;
+            font-weight: 500;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        .value-cell {
+            text-align: right; /* 精准靠右对齐 */
+            font-weight: bold;
+            color: #111;
+        }
+
+        .rate-input-box {
+            padding: 6px 8px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: right;
+            width: 90px;
+            font-weight: bold;
+        }
+
+        .api-status {
+            font-size: 11px;
+            color: #666;
+            display: block;
+            margin-top: 2px;
+            font-weight: normal;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table.result-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            text-align: left;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table.result-table th, table.result-table td {
+            padding: 14px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14.5px;
+        }
+
+        table.result-table th {
+            background-color: #f1f3f2;
+            font-weight: bold;
+            color: #555;
+        }
+
+        table.result-table tr:hover {
+            background-color: #f9fbf9;
+        }
+
+        .highlight-row {
+            background-color: #e6f6ee !important;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .badge-base { background-color: #e0e0e0; color: #333; }
+        .badge-plus { background-color: #d1ebd9; color: #00703c; }
+        .badge-max { background-color: #ffeb3b; color: #000; }
+
+        .text-right {
+            text-align: right;
+        }
+        
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .footer-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>國泰人壽月月滿溢變額年金保險</h1>
+        <p>保單連結基金收益與自動網頁匯率試算分析</p>
+    </header>
+
+    <div class="grid-layout">
+        <div class="card">
+            <h2>試算條件輸入</h2>
+            <div class="form-group">
+                <label for="twdInvestment">投資金額 (台幣 TWD)</label>
+                <input type="number" id="twdInvestment" value="5000000" step="100000">
+            </div>
+            <div class="form-group">
+                <label for="fundPrice">基金每單位價格 (美金 USD)</label>
+                <input type="number" id="fundPrice" value="10.7" step="0.01">
+            </div>
+            
+            <h2>基礎換算數據</h2>
+            <table class="basic-info-table">
+                <tr>
+                    <td class="label-cell">美金匯率 (TWD/USD)</td>
+                    <td class="value-cell">
+                        <input type="number" id="exchangeRate" class="rate-input-box" value="31.86" step="0.01">
+                        <span id="rateStatus" class="api-status">正在自動連網查詢最新匯率...</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">換算投資美金</td>
+                    <td class="value-cell" id="usdInvestment">$0</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">連結基金單位數</td>
+                    <td class="value-cell" id="unitCount">0 單位</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">每月配息固定值</td>
+                    <td class="value-cell" id="monthlyPayout">$0</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">每年基本配息共領</td>
+                    <td class="value-cell" id="annualBasePayout">$0</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">基本年報酬率</td>
+                    <td class="value-cell" id="baseReturnRate" style="color: var(--primary-color); font-size: 16px;">0%</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>加碼回報分析 (由多往低排列)</h2>
+            <div class="table-responsive">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>加碼次數</th>
+                            <th class="text-right">每次加碼金額</th>
+                            <th class="text-right">年度加碼總額</th>
+                            <th class="text-right">年度總領金額</th>
+                            <th class="text-right">最終報酬率</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-link">
+        <a href="https://www.cathaylife.com.tw/official/products/investment-va/fic" target="_blank">點此造訪 國泰人壽月月滿溢商品官方網頁</a>
+    </div>
+</div>
+
+<script>
+    const twdInput = document.getElementById('twdInvestment');
+    const fundPriceInput = document.getElementById('fundPrice');
+    const rateInput = document.getElementById('exchangeRate');
+    const rateStatus = document.getElementById('rateStatus');
+    
+    const usdInvestmentTxt = document.getElementById('usdInvestment');
+    const unitCountTxt = document.getElementById('unitCount');
+    const monthlyPayoutTxt = document.getElementById('monthlyPayout');
+    const annualBasePayoutTxt = document.getElementById('annualBasePayout');
+    const baseReturnRateTxt = document.getElementById('baseReturnRate');
+    const resultTableBody = document.getElementById('resultTableBody');
+
+    function formatNumber(num, decimals = 0) {
+        return num.toLocaleString('zh-TW', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+
+    // 連網自動抓取最新美元對台幣匯率 (採用開放免費API)
+    async function fetchLiveExchangeRate() {
+        try {
+            const response = await fetch('https://open.er-api.com/v6/latest/USD');
+            if (!response.ok) throw new Error('網路回應錯誤');
+            const data = await response.json();
+            const twdRate = data.rates.TWD;
+            if (twdRate) {
+                rateInput.value = twdRate.toFixed(2);
+                rateStatus.textContent = `● 已自動同步最新網頁匯率`;
+                rateStatus.style.color = '#00a650';
+                calculate();
+            }
+        } catch (error) {
+            console.error('無法自動獲取即時匯率:', error);
+            rateStatus.textContent = `○ 無法連網更新，已切換手動模式`;
+            rateStatus.style.color = '#ff9800';
+        }
+    }
+
+    // 計算主邏輯
+    function calculate() {
+        const twd = parseFloat(twdInput.value) || 0;
+        const fundPrice = parseFloat(fundPriceInput.value) || 10.7;
+        const rate = parseFloat(rateInput.value) || 31.86;
+        
+        const usd = Math.round(twd / rate);
+        const units = Math.round(usd / fundPrice); 
+        const monthlyPayout = Math.round(units * 0.04167);
+        const annualBasePayout = Math.round(monthlyPayout * 12);
+        const baseReturnRate = ((annualBasePayout / usd) * 100).toFixed(2);
+
+        // 數值更新（確保靠右對齊格式美觀）
+        usdInvestmentTxt.textContent = '$' + formatNumber(usd);
+        unitCountTxt.textContent = formatNumber(units) + ' 單位';
+        monthlyPayoutTxt.textContent = '$' + formatNumber(monthlyPayout);
+        annualBasePayoutTxt.textContent = '$' + formatNumber(annualBasePayout);
+        baseReturnRateTxt.textContent = baseReturnRate + '%';
+
+        // 生成右側加碼遞減表格
+        let tableHtml = '';
+        const singleBonus = Math.round(units * 0.1); 
+
+        for (let times = 12; times >= 0; times--) {
+            const totalBonus = singleBonus * times;
+            const totalPayout = annualBasePayout + totalBonus;
+            const finalReturnRate = ((totalPayout / usd) * 100).toFixed(2);
+            
+            let badgeClass = 'badge-plus';
+            let rowClass = '';
+            if (times === 12) { badgeClass = 'badge-max'; rowClass = 'highlight-row'; }
+            if (times === 0) { badgeClass = 'badge-base'; }
+            if (times === 6) { rowClass = 'highlight-row'; } 
+
+            tableHtml += `
+                <tr class="${rowClass}">
+                    <td><span class="badge ${badgeClass}">${times} 次</span></td>
+                    <td class="text-right">$${formatNumber(singleBonus)}</td>
+                    <td class="text-right">$${formatNumber(totalBonus)}</td>
+                    <td class="text-right" style="color: #00703c; font-weight: bold;">$${formatNumber(totalPayout)}</td>
+                    <td class="text-right" style="color: #d32f2f; font-weight: bold; font-size: 16px;">${finalReturnRate}%</td>
+                </tr>
+            `;
+        }
+        resultTableBody.innerHTML = tableHtml;
+    }
+
+    twdInput.addEventListener('input', calculate);
+    fundPriceInput.addEventListener('input', calculate);
+    rateInput.addEventListener('input', calculate);
+
+    // 啟動流程：先計算預設，再嘗試連網更新最新匯率
+    calculate();
+    fetchLiveExchangeRate();
+</script>
+
+</body>
+</html>
